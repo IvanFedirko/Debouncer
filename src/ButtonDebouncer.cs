@@ -66,10 +66,6 @@ namespace FIV.Debouncer
                         _delayedHandler();
                     }
 
-                    // if (_firstValue != _lastValue)
-                    // {
-                    //     _delayedHandler();
-                    // }
 
                     _delayedHandler = null;
                 }
