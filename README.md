@@ -17,16 +17,22 @@ dotnet add package FIV.Debouncer --version 0.0.1
 
 
 #### Usage
-```
+```csharp
+
 using FIV.Debouncer;
 
 {
     public void Main()
     {
-       ButtonDebouncer debouncer = new ButtonDebouncer((v) => Console.WriteLine(v), TimeSpan.FromMilliseconds(1000) );
+       ButtonDebouncer<int> debouncer = new ButtonDebouncer<int>((v) => Console.WriteLine(v), TimeSpan.FromMilliseconds(1000) );
        
        //Logic to set different values to HandlingBtnPressing
-       debouncer.HandlingBtnPressing(BtnValue);
+       
+       for(int i = 0; i< 100; i++)
+       {
+            debouncer.HandlingBtnPressing(i);
+       }
+       
     }
 }
 ```
