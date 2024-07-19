@@ -61,15 +61,10 @@ namespace FIV.Debouncer
                 if (_delayedHandler != null)
                 {
 
-                    if(!_firstValue.Equals(_lastValue))
+                    if(_firstValue.Equals(_lastValue))
                     {
                         _delayedHandler();
                     }
-
-                    // if (_firstValue != _lastValue)
-                    // {
-                    //     _delayedHandler();
-                    // }
 
                     _delayedHandler = null;
                 }
