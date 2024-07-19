@@ -4,25 +4,25 @@ using System.Timers;
 namespace FIV.Debouncer
 {
 
-    public class ButtonDebouncer
+    public class ButtonDebouncer<T>
     {
         private readonly object _lock = new object();
         private Action _delayedHandler = null;
-        private Action<bool> _onChangeAction = null;
+        private Action<T> _onChangeAction = null;
 
-        private bool _firstValue = false;
-        private bool _lastValue = false;
+        private T _firstValue = default(T);
+        private T _lastValue = default(T);
 
         private readonly System.Timers.Timer _throttleTimer;
 
-        public ButtonDebouncer(Action<bool> onChangeValue, TimeSpan debounceDelay)
+        public ButtonDebouncer(Action<T> onChangeValue, TimeSpan debounceDelay)
         {
             _onChangeAction = onChangeValue;
             _throttleTimer = new System.Timers.Timer(debounceDelay.TotalMilliseconds);
             _throttleTimer.Elapsed += Timer_Tick;
         }
 
-        public void HandlingBtnPressing(bool incomingValue)
+        public void HandlingBtnPressing(T incomingValue)
         {
             lock (_lock)
             {
@@ -43,7 +43,7 @@ namespace FIV.Debouncer
             }
         }
 
-        private void SendResultPressing(bool value)
+        private void SendResultPressing(T value)
         {
             if (_onChangeAction != null)
             {
@@ -60,10 +60,16 @@ namespace FIV.Debouncer
                 _throttleTimer.Stop();
                 if (_delayedHandler != null)
                 {
-                    if (_firstValue != _lastValue)
+
+                    if(_firstValue.Equals(_lastValue))
                     {
                         _delayedHandler();
                     }
+
+                    // if (_firstValue != _lastValue)
+                    // {
+                    //     _delayedHandler();
+                    // }
 
                     _delayedHandler = null;
                 }
