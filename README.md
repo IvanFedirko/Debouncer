@@ -1,4 +1,4 @@
-### ButtonDebouncer  v 1.0.1
+### ButtonDebouncer  v 1.0.0
 
 Debouncing prevents function calls from executing too rapidly or too many times by button pressing.
 
@@ -9,11 +9,19 @@ In this repo, we have a ButtonDebouncer class that provides a method HandlingBtn
 
 First, the first value that arrives is executed, then over time the tracking window is moved to front to a specified interval. If the value has not changed, then nothing happens. If it has changed, the last one is returned.
 
+### Generic version
+
+Could use Int, bool etc.
+
+
+```csharp
+ if(_firstValue.Equals(_lastValue))
+```
 
 
 ### Install
 
-dotnet add package FIV.Debouncer --version 0.0.1
+dotnet add package FIV.Debouncer --version 1.0.0
 
 
 #### Usage
