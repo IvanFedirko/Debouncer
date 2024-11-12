@@ -21,24 +21,42 @@ Could use Int, bool etc.
 
 ### Install
 
-dotnet add package FIV.Debouncer --version 1.0.0
+dotnet add package FIV.Debouncer --version 1.1.0
 
 
-#### Usage
+#### Usage Button Debouncer
+
 ```csharp
 
 using FIV.Debouncer;
-
-{
-    public void Main()
+public class Program{
+    public static void Main()
     {
        ButtonDebouncer<int> debouncer = new ButtonDebouncer<int>((v) => Console.WriteLine(v), TimeSpan.FromMilliseconds(1000) );
-       
        //Logic to set different values to HandlingBtnPressing
-       
        for(int i = 0; i< 100; i++)
        {
             debouncer.HandlingBtnPressing(i);
+       }
+       
+    }
+}
+```
+
+
+#### Usage Throttle Value
+
+```csharp
+using FIV.Debouncer;
+
+public class Program{
+    public static void Main()
+    {
+       ThrottleValue<int> throttle = new ThrottleValue<int>((v) => Console.WriteLine(v), TimeSpan.FromMilliseconds(1000) );
+       //Logic to set different values to Handling
+       for(int i = 0; i< 100; i++)
+       {
+            throttle.Handling(i);
        }
        
     }
