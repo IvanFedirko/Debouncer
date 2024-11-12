@@ -8,7 +8,7 @@ namespace FIV.Debouncer
     {
         private readonly object _lock = new object();
         private Action _delayedHandler = null;
-        private Action<T> _onChangeAction = null;
+        private Action<T> _onNewValueAction = null;
 
         private T _firstValue = default(T);
         private T _lastValue = default(T);
@@ -17,7 +17,7 @@ namespace FIV.Debouncer
 
         public ThrottleValue(Action<T> onNewValue, TimeSpan debounceDelay)
         {
-            _onChangeAction = onNewValue;
+            _onNewValueAction = onNewValue;
             _throttleTimer = new System.Timers.Timer(debounceDelay.TotalMilliseconds);
             _throttleTimer.Elapsed += Timer_Tick;
         }
@@ -31,12 +31,11 @@ namespace FIV.Debouncer
                     _lastValue = incomingValue;
 
                     _delayedHandler = () => SendResult(_lastValue);
-                    _throttleTimer.Stop();
-                    _throttleTimer.Start();
 
                 }
                 else
                 {
+                    _throttleTimer.Start();
                     _firstValue = incomingValue;
                     SendResult(_firstValue);
                 }
@@ -45,10 +44,9 @@ namespace FIV.Debouncer
 
         private void SendResult(T value)
         {
-            if (_onChangeAction != null)
+            if (_onNewValueAction != null)
             {
-                _onChangeAction(value);
-                _throttleTimer.Start();
+                _onNewValueAction(value);
 
             }
         }
@@ -60,8 +58,6 @@ namespace FIV.Debouncer
                 _throttleTimer.Stop();
                 if (_delayedHandler != null)
                 {
-
-
                     _delayedHandler();
                     _delayedHandler = null;
                 }
